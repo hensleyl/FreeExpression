@@ -17,12 +17,12 @@
   You should have received a copy of the GNU General Public License
   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* 
-  This file is based on work from Grbl v0.8, distributed under the 
-  terms of the MIT-license. See COPYING for more details.  
+/*
+  This file is based on work from Grbl v0.8, distributed under the
+  terms of the MIT-license. See COPYING for more details.
     Copyright (c) 2009-2011 Simen Svale Skogsrud
     Copyright (c) 2011-2012 Sungeun K. Jeon
-*/ 
+*/
 
 #ifndef serial_h
 #define serial_h
@@ -58,22 +58,22 @@
   #define XON_CHAR 0x11
 #endif
 
-void serial_init();
+void serial_init(void);
 
 // Writes one byte to the TX serial buffer. Called by main program.
 void serial_write(uint8_t data);
 
 // Fetches the first byte in the serial read buffer. Called by main program.
-uint8_t serial_read();
+uint8_t serial_read(void);
 
 // Reset and empty data in read buffer. Used by e-stop and reset.
-void serial_reset_read_buffer();
+void serial_reset_read_buffer(void);
 
 // Returns the number of bytes used in the RX serial buffer.
-uint8_t serial_get_rx_buffer_count();
+uint8_t serial_get_rx_buffer_count(void);
 
 // Returns the number of bytes used in the TX serial buffer.
 // NOTE: Not used except for debugging and ensuring no TX bottlenecks.
-uint8_t serial_get_tx_buffer_count();
+uint8_t serial_get_tx_buffer_count(void);
 
 #endif

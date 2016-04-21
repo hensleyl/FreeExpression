@@ -1,6 +1,6 @@
 /*
  * main.c
- * 
+ *
  * FreeExpression firmware, main program
  *
  		This source original developed by  https://github.com/Arlet/Freecut
@@ -43,7 +43,7 @@
 
 void setup(void)
 {
-	// Watchdogging disabled -- No use while debugging / testing 
+	// Watchdogging disabled -- No use while debugging / testing
 	//    wdt_enable( WDTO_30MS );
 	usb_init();
 	timer_init( );
@@ -53,14 +53,14 @@ void setup(void)
 	flash_init( );
 	hpgl_init();
 	dial_init( );
-		
+
 	sei();					// Start interrupts -- Motors will home immediately following this
-	
+
 	msleep(100);
-	
-	display_print(VERSION );
-	// Unfortunate duplication of code here and in keaypac.c 
-	// TODO: moe into a function and call both places. 
+
+	display_println(VERSION );
+	// Unfortunate duplication of code here and in keaypac.c
+	// TODO: moe into a function and call both places.
 	switch (Lang)
 	{
 		case HPGL:
@@ -69,13 +69,13 @@ void setup(void)
 		case GPGL:
 			display_puts("GPGL selected");
 		break;
-		
+
 		case G_CODE:
 			display_puts("G-CODE selected");
 		break;
-		
+
 	}
-	
+
 	usb_puts("\f");
 	usb_puts(VERSION);
 
@@ -85,7 +85,7 @@ void setup(void)
 int main( void )
 {
 	setup();
-	
+
     while( 1 )
     {
         cli_poll( ); // polls ready bytes from USB  and processes them
@@ -93,7 +93,7 @@ int main( void )
 		if( flag_25Hz )
 		{
 			flag_25Hz = 0;
-			
+
 			dial_poll( );  // polls the dials and processes their state
 			keypad_poll( ); // polls the keypad and executes functions
 		}

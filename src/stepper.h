@@ -35,8 +35,8 @@ void stepper_home( void );
 void stepper_set_origin00(void );
 void stepper_unload_paper( void );
 void stepper_load_paper( void );
-void pen_up();
-void pen_down();
+void pen_up( void );
+void pen_down( void );
 void stepper_jog_manual(int direction, int dist);
 
 
@@ -47,6 +47,6 @@ void stepper_jog_manual(int direction, int dist);
 // pushes close to 12 volts through the MOSFET to the pen's solenoid
 #define MAX_PEN_PWM 500			// MAX PWM for stepper solenoid i.e. nearly no pressure  ~ 10Gram
 #define MIN_PEN_PWM 100			// MIN PWM for stepper solenoid i.e max pressure it can do ~ 300gram when cold, 275 gram when hot.
-#define MAX_CUTTER_P_RANGES 10	// The number of pressure choices  
+#define MAX_CUTTER_P_RANGES 10	// The number of pressure choices
 #define MAX_STEPPER_SPEED_RANGES 9	// the number of speed choices
 #endif
