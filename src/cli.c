@@ -51,33 +51,33 @@ void cli_poll(void)
 {
 	STEPPER_COORD dstx, dsty;
 	char c;
+	uint8_t uc;
 	int8_t cmd;
 	uint8_t labelchar;
-	
-	
-	while((c = (char)usb_getc())!=SERIAL_NO_DATA) 
+
+	while((uc = usb_getc())!=SERIAL_NO_DATA)
 	{
+		c = (char)uc;
 		switch(Lang)
 		{
 			case HPGL:
 			cmd = hpgl_char(c, &dstx, &dsty, &labelchar);
 			break;
-			
+
 			case G_CODE:
 			cmd = gcode_char(c, &dstx, &dsty );
 			break;
-			
+
 			//case GPGL:
 			// TODO
 			//break;
-			
+
 			default:
 			continue;		// just consume everything and do nothing
-			
-		}
-			
 
-		switch(cmd) 
+		}
+
+		switch(cmd)
 		{
 			case CMD_PU:
 			//sprintf(s,"PU: %d %d",dstx,dsty);
@@ -89,12 +89,12 @@ void cli_poll(void)
 			//	display_puts( s);
 				stepper_draw( dstx, dsty );
 			break;
-		
+
 			case CMD_INIT:
 				// 1. home
 				// 2. init scale etc
 				// typically happens at start and end of each document;
-				dstx = dsty = 0;				
+				dstx = dsty = 0;
 		//	sprintf(s,"IN: %d %d",dstx,dsty);
 			//display_puts( s);
 				stepper_move( dstx, dsty );
@@ -104,7 +104,7 @@ void cli_poll(void)
 			//display_puts( s);
 				stepper_move( dstx, dsty  );
 			break;
-#ifdef non_supported_commands			
+#ifdef non_supported_commands
 			case CMD_PA:  // not supported
 			break;
 			case CMD_ARCABS:  // not supported
@@ -117,7 +117,7 @@ void cli_poll(void)
 			//	if (labelchar != 0) {
 			//		char_active = text_char(labelchar, &dstx, &dsty, &penny);
 			//	}
-		
+
 			break;
 			case CMD_SI: // not supported
 				//text_scale_cm(numpad[0], numpad[1]);
@@ -144,5 +144,5 @@ void cli_poll(void)
 			break;
 		}
 	}
-	
+
 }
