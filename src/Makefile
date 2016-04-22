@@ -15,7 +15,10 @@ FCLK = 16000000UL
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC = main.c usb.c lcd.c keypad.c timer.c stepper.c cli.c flash.c dial.c hpgl.c shvars.c scale.c display.c g_code.c serial.c
-SRC +=  m2u8/u8g_dev_ssd1325_nhd27oled_gr_new.c m2u8/u8g_com_io.c m2u8/u8g_ll_api.c #m2u8/u8g_rot.c
+SRC += m2u8/u8g_dev_ssd1325_nhd27oled_gr_new.c m2u8/u8g_com_io.c m2u8/u8g_ll_api.c m2u8/u8g_rot.c m2u8/u8g_font.c
+SRC += m2u8/u8g_font_6x10.c m2u8/u8g_font_profont11.c m2u8/u8g_com_api.c m2u8/u8g_com_api_16gr.c m2u8/u8g_com_atmega_hw_spi.c
+SRC += m2u8/u8g_clip.c m2u8/u8g_pb8h2.c m2u8/u8g_pb16h2.c m2u8/u8g_com_atmega_sw_spi.c m2u8/u8g_com_atmega_parallel.c
+SRC += m2u8/u8g_state.c m2u8/u8g_delay.c m2u8/u8g_pb.c m2u8/u8g_page.c
 
 # Assembler sources
 ASRC =

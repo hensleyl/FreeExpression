@@ -52,6 +52,11 @@
 #    include <Arduino.h> 
 #  endif
 
+/* issue 353 */
+#if defined(ARDUINO_ARCH_SAMD)
+#    include <delay.h>
+#endif
+
 #  if defined(__AVR__)
 #    define USE_AVR_DELAY
 #  elif defined(__PIC32MX)
@@ -61,12 +66,18 @@
 #  else
 #    define USE_ARDUINO_DELAY
 #  endif
+#elif defined(_GNU_SOURCE)
+#  define USE_LINUX_DELAY
+#elif defined(__MSP430__)
+#  define USE_MSP430_DELAY
 #elif defined(U8G_RASPBERRY_PI)
 #  define USE_RASPBERRYPI_DELAY
 #elif defined(__AVR__)
 #  define USE_AVR_DELAY
 #elif defined(__18CXX)
 #  define USE_PIC18_DELAY
+#elif defined(U8G_CYPRESS_PSOC5)
+#define USE_PSOC5_DELAY
 #elif defined(__arm__)
 /* do not define anything, all procedures are expected to be defined outside u8glib */
 
@@ -102,6 +113,22 @@ void u8g_10MicroDelay(void)
    usleep(10);
 }
 #endif
+
+#if defined(USE_LINUX_DELAY)
+void u8g_Delay(uint16_t val) {
+   //delay(val);
+   usleep((uint32_t)val*(uint32_t)1000);
+}
+void u8g_MicroDelay(void)
+{
+   usleep(1);
+}
+void u8g_10MicroDelay(void)
+{
+   usleep(10);
+}
+#endif
+
 
 
 /*== AVR Delay ==*/
@@ -246,6 +273,40 @@ void u8g_10MicroDelay(void)
 } 
 
 #endif
+
+#if defined(USE_MSP430_DELAY)
+#include <msp430.h>
+
+#ifndef F_CPU
+#define F_CPU 1000000UL
+#endif
+
+
+void u8g_Delay(uint16_t val)
+{
+  int t;
+  for (t=0; t < val; t++)
+  {
+    __delay_cycles(F_CPU/1000UL);
+  }
+}
+void u8g_MicroDelay(void)
+{
+  __delay_cycles(F_CPU/1000000UL);
+}
+
+void u8g_10MicroDelay(void)
+{
+  __delay_cycles(F_CPU/100000UL);
+}
+#endif
+#if defined USE_PSOC5_DELAY
+  #include <project.h>
+  void u8g_Delay(uint16_t val)  {CyDelay(val);};
+  void u8g_MicroDelay(void)     {CyDelay(1);};
+  void u8g_10MicroDelay(void)   {CyDelay(10);};  
+#endif
+
 
 /*== Any other systems: Dummy Delay ==*/
 #if defined(USE_DUMMY_DELAY)
